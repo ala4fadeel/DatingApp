@@ -5,6 +5,8 @@ import { AppComponent } from '../components/app/app.component';
 import { NavComponent } from '../components/nav/nav.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { ErrorInterceptorProvider } from '../services/error.interceptor';
+
 import {HomeComponent} from '../components/home/home.component';
 import {RegisterComponent} from '../components/register/register.component';
 
@@ -21,7 +23,8 @@ import {RegisterComponent} from '../components/register/register.component';
     FormsModule 
   ],
   providers: [
-    AuthService
+    AuthService,
+    ErrorInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })
