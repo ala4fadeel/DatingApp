@@ -21,6 +21,7 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using DatingApp.API.Helpers;
+using AutoMapper;
 
 namespace DatingApp.API
 {
@@ -38,15 +39,20 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-                    _AppSettingsApiKey = Configuration["AppSettings:Token "];
-
-            services.AddControllers();
+            _AppSettingsApiKey = Configuration["AppSettings:Token "];
             services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddControllers()
+             .AddNewtonsoftJson(options =>
+              {
+              options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+              });
             //those 2 lines below are crucial step to fix Core errors
             services.AddCors();
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            services.AddScoped<IAuthRepository,AuthRepository>();
+            services.AddTransient<Seed>();
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
+            services.AddScoped<IDatingRepository, DatingRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(Options => {
               Options.TokenValidationParameters = new TokenValidationParameters
