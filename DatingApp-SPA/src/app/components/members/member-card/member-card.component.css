@@ -1,0 +1,40 @@
+/* This cause the image to zoom in on mouse hover */
+.card:hover img{
+    transform: scale(1.2,1.2);
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
+    /* This line adds some blurring when zooming out */
+    opacity: 0.7;
+}
+
+.card img{
+    transform: scale(1.0,1.0);
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
+}
+
+/* This class makes sure the image won't block the name whem zooming out */
+.card-img-wrapper{
+ overflow: hidden;
+}
+
+/* this class show fa-user icon only and hide evelope and heart */
+.member-icons{
+    position: absolute;
+    bottom: -30;
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    opacity: 0;
+}
+
+/* this class show fa-user,envelope & heart when the user hover */
+.card-img-wrapper:hover .member-icons{
+    bottom: 0;
+    opacity: 1;
+   }
+
+   .animate{
+       transition: all 0.3s ease-in-out;
+   }
